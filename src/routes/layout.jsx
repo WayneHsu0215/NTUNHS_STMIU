@@ -1,0 +1,97 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Icon } from '@iconify/react';
+
+const routes = [
+    { label: '題目檢視', icon: 'quill:paper' },
+    { label: '歷史紀錄', icon: 'eos-icons:storage-class-outlined' },
+];
+
+const routes1 = [
+    { label: '相符覆核表管理', icon: 'mdi:number-1-box' },
+    { label: '碩士報名表管理', icon: 'mdi:number-2-box' },
+    { label: '原創性比對檢核表管理(考試前)', icon: 'mdi:number-3-box' },
+    { label: '原創性比對檢核表管理(考試後)', icon: 'mdi:number-4-box' },
+    { label: '考試異動申請表', icon: 'mdi:number-5-box' }
+];
+
+export function getCookie(name) {
+    const cDecoded = decodeURIComponent(document.cookie);
+    const cArray = cDecoded.split('; ');
+    let result = null;
+    cArray.forEach((val) => {
+        if (val.split('=')[0] === name) {
+            result = val.split('=')[1];
+        }
+    });
+    return result;
+}
+
+const Layout = ({ children }) => {
+    const [activeLink, setActiveLink] = useState(0);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const cu = getCookie("AccID");
+
+    return (
+        <div className="flex h-screen bg-gray-100">
+            <aside className={`${isSidebarOpen ? 'w-56' : 'w-20'} bg-gray-800 p-4 transition-width duration-300`}>
+                <div className="flex flex-col justify-between h-full">
+                    <div>
+                        <div className="mb-4 flex justify-center">
+                            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                                <Icon icon="carbon:user-avatar-filled" className={`text-white ${isSidebarOpen ? 'text-7xl' : 'text-5xl'}`} />
+                            </button>
+                        </div>
+                        {isSidebarOpen && <p className="text-center text-white text-lg">{cu}</p>}
+
+                        <nav className="mt-5">
+                            <ul>
+                                {routes.map((route, index) => (
+                                    <li
+                                        key={index}
+                                        className={`flex items-center h-10 px-3 rounded-lg mb-2 cursor-pointer transition-colors duration-200 ${
+                                            activeLink === index
+                                                ? 'bg-white text-gray-800 font-bold'
+                                                : 'bg-gray-800 text-white hover:bg-white font-bold hover:text-gray-800'
+                                        }`}
+                                        onClick={() => setActiveLink(index)}
+                                    >
+                                        <Icon icon={route.icon} className="text-lg" />
+                                        {isSidebarOpen && <span className="ml-3">{route.label}</span>}
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                        <button
+                            className="flex items-center justify-center h-10 px-3 bg-red text-white rounded-lg hover:bg-white hover:text-black transition-colors duration-200 mb-2"
+                        >
+                            <Icon icon="tabler:logout" className="text-lg" />
+                            {isSidebarOpen && <span className="ml-3">登出</span>}
+                        </button>
+                        <button
+                            className="p-2 bg-white hover:bg-gray-200 h-10 px-3 rounded-full shadow"
+                            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                        >
+                            <Icon icon="icon-park-outline:nail-polish" className="text-gray-800 text-lg" />
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <div className="flex flex-col flex-grow overflow-hidden">
+                <main className="flex-grow overflow-y-auto">
+                    {children}
+                </main>
+            </div>
+        </div>
+    );
+};
+
+Layout.propTypes = {
+    children: PropTypes.node.isRequired,
+};
+
+export default Layout;
