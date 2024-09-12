@@ -153,18 +153,59 @@ function Root2() {
 
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 {selectedQuestion && (
-                    <div>
-                        <h2 className="text-2xl font-bold mb-4">編號: {selectedQuestion.ID}</h2>
-                        <p><strong>日期:</strong> {selectedQuestion.Date}</p>
-                        <p><strong>時間:</strong> {selectedQuestion.Time}</p>
-                        <p><strong>學號:</strong> {selectedQuestion.UUID}</p>
-                        <p><strong>答案:</strong> {selectedQuestion.Answer}</p>
-                        <p><strong>問題:</strong> {selectedQuestion.Question}</p>
-                        <p><strong>回答次數:</strong> {selectedQuestion.Answer_Time}</p>
-                        <p><strong>正確性:</strong> {selectedQuestion.Correct}</p>
-                        <p><strong>題目類性:</strong> {selectedQuestion.Question_type}</p>
-                        <p><strong>類別:</strong> {selectedQuestion.Category}</p>
+                    <div className="overflow-x-auto">
+                        <table className="table-auto border-collapse border border-gray-300 w-full">
+                            <thead>
+                            <tr>
+                                <th className="border px-4 py-2 text-left font-semibold bg-gray-100">項目</th>
+                                <th className="border px-4 py-2 text-left font-semibold bg-gray-100">內容</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td className="border px-4 py-2">編號</td>
+                                <td className="border px-4 py-2">{selectedQuestion.ID}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">日期</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Date}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">時間</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Time}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">學號</td>
+                                <td className="border px-4 py-2">{selectedQuestion.UUID}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">答案</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Answer}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">問題</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Question}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">回答次數</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Answer_Time}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">正確性</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Correct}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">題目類性</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Question_type}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">類別</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Category}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
+
                 )}
             </Modal>
         </div>

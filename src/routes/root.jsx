@@ -142,15 +142,47 @@ function App() {
 
             <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                 {selectedQuestion && (
-                    <div>
-                        <h2 className="text-2xl font-bold mb-4">編號: {selectedQuestion.ID}</h2>
-                        <p><strong>題目:</strong> {selectedQuestion.Question}</p>
-                        <p><strong>難易度:</strong> {selectedQuestion.Category}</p>
-                        <p><strong>類型:</strong> {selectedQuestion.Type}</p>
-                        <p><strong>正確答案:</strong> {selectedQuestion.Answer_Correct}</p>
-                        <p><strong>創建日期:</strong> {selectedQuestion.Date}</p>
-                        <p><strong>創建時間:</strong> {selectedQuestion.Time}</p>
+                    <div className="overflow-x-auto">
+                        <table className="table-auto border-collapse border border-gray-300 w-full">
+                            <thead>
+                            <tr>
+                                <th className="border px-4 py-2 text-left font-semibold bg-gray-100">項目</th>
+                                <th className="border px-4 py-2 text-left font-semibold bg-gray-100">內容</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td className="border px-4 py-2">編號</td>
+                                <td className="border px-4 py-2">{selectedQuestion.ID}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">題目</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Question}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">難易度</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Category}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">類型</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Type}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">正確答案</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Answer_Correct}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">創建日期</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Date}</td>
+                            </tr>
+                            <tr>
+                                <td className="border px-4 py-2">創建時間</td>
+                                <td className="border px-4 py-2">{selectedQuestion.Time}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
+
                 )}
             </Modal>
         </div>
