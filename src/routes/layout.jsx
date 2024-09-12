@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
+import { Link } from 'react-router-dom';
 
 const routes = [
-    { label: '題目檢視', icon: 'quill:paper' },
-    { label: '歷史紀錄', icon: 'eos-icons:storage-class-outlined' },
+    { label: '題目檢視', icon: 'quill:paper' , index: 0, path: '/' },
+    { label: '學生答案', icon: 'eos-icons:storage-class-outlined' , index: 1, path: '/root2' },
+    // { label: '歷史紀錄', icon: 'eos-icons:storage-class-outlined' },
 ];
 
 const routes1 = [
@@ -51,13 +53,21 @@ const Layout = ({ children }) => {
                                         key={index}
                                         className={`flex items-center h-10 px-3 rounded-lg mb-2 cursor-pointer transition-colors duration-200 ${
                                             activeLink === index
-                                                ? 'bg-white text-gray-800 font-bold'
-                                                : 'bg-gray-800 text-white hover:bg-white font-bold hover:text-gray-800'
+                                                ? 'bg-red-500 font-bold text-white'
+                                                : 'bg-gray-800  hover:bg-red-500 font-bold hover:text-black text-red-600'
                                         }`}
                                         onClick={() => setActiveLink(index)}
                                     >
-                                        <Icon icon={route.icon} className="text-lg" />
-                                        {isSidebarOpen && <span className="ml-3">{route.label}</span>}
+                                        {isSidebarOpen ?
+                                            (<Link to={route.path} className="flex items-center w-full h-full text-white">
+                                                    <Icon icon={route.icon} className="ml-3 text-lg" />
+                                                    <span className="ml-3">{route.label}</span>
+                                                </Link>
+                                            ) : (
+                                                <Link to={route.path} className="flex items-center w-full justify-center h-full text-white">
+                                                    <Icon icon={route.icon} className="text-lg" />
+                                                </Link>
+                                            )}
                                     </li>
                                 ))}
                             </ul>

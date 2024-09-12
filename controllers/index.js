@@ -35,5 +35,19 @@ router.get('/questions', (req, res) => {
     });
   });
 });
+router.get('/questions2', (req, res) => {
+  const query = 'SELECT * FROM student_answer';
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      data: rows
+    });
+  });
+});
 
 export default router;
