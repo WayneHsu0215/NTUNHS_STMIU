@@ -1,0 +1,160 @@
+{
+  "data": [
+    {
+      "ID": 83,
+      "Date": "2024-09-11 16:20:25",
+      "Time": "16:20:25",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 1,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "27.9",
+      "MED": "78.3"
+    },
+    {
+      "ID": 84,
+      "Date": "2024-09-11 16:20:35",
+      "Time": "16:20:35",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 2,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "28.9",
+      "MED": "71.8"
+    },
+    {
+      "ID": 85,
+      "Date": "2024-09-11 16:20:48",
+      "Time": "16:20:48",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 3,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "27.4",
+      "MED": "82.0"
+    },
+    {
+      "ID": 86,
+      "Date": "2024-09-11 16:20:57",
+      "Time": "16:20:57",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 4,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "26.4",
+      "MED": "83.3"
+    },
+    {
+      "ID": 87,
+      "Date": "2024-09-11 16:21:04",
+      "Time": "16:21:04",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 5,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "25.3",
+      "MED": "86.5"
+    },
+    {
+      "ID": 88,
+      "Date": "2024-09-11 16:21:12",
+      "Time": "16:21:12",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 6,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "25.6",
+      "MED": "86.2"
+    },
+    {
+      "ID": 89,
+      "Date": "2024-09-11 16:21:18",
+      "Time": "16:21:18",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 7,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "25.5",
+      "MED": "87.7"
+    },
+    {
+      "ID": 90,
+      "Date": "2024-09-11 16:21:25",
+      "Time": "16:21:25",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 8,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "25.9",
+      "MED": "86.8"
+    },
+    {
+      "ID": 91,
+      "Date": "2024-09-11 16:21:45",
+      "Time": "16:21:45",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 9,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "27.4",
+      "MED": "82.0"
+    },
+    {
+      "ID": 92,
+      "Date": "2024-09-11 16:21:59",
+      "Time": "16:21:59",
+      "UUID": "09150418F0827",
+      "Student_ID": "102214230",
+      "Question_num": 10,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "26.9",
+      "MED": "83.2"
+    },
+    {
+      "ID": 92,
+      "Date": "2024-09-11 16:21:59",
+      "Time": "16:21:59",
+      "UUID": "09150418F08271",
+      "Student_ID": "102214248",
+      "Question_num": 10,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "26.9",
+      "MED": "83.2"
+    },
+    {
+      "ID": 92,
+      "Date": "2024-09-11 16:21:59",
+      "Time": "16:21:59",
+      "UUID": "09150418F08272",
+      "Student_ID": "102214238",
+      "Question_num": 10,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "26.9",
+      "MED": "83.2"
+    },
+    {
+      "ID": 92,
+      "Date": "2024-09-11 16:21:59",
+      "Time": "16:21:59",
+      "UUID": "09150418F082702",
+      "Student_ID": "102214245",
+      "Question_num": 10,
+      "Question_type": "是非題",
+      "Category": "normal",
+      "ATT": "26.9",
+      "MED": "83.2"
+    }
+  ]
+}

@@ -5,17 +5,13 @@ import { Link } from 'react-router-dom';
 
 const routes = [
     { label: '題目檢視', icon: 'quill:paper' , index: 0, path: '/' },
-    { label: '學生答案', icon: 'eos-icons:storage-class-outlined' , index: 1, path: '/root2' },
+    { label: '學生答案資料', icon: 'ri:book-line' , index: 1, path: '/root2' },
+    { label: '綜合統計查詢', icon: 'fluent:tag-search-24-regular' , index: 1, path: '/root3' },
+    { label: '個別答題情形', icon: 'solar:chart-2-outline' , index: 1, path: '/root4' },
     // { label: '歷史紀錄', icon: 'eos-icons:storage-class-outlined' },
 ];
 
-const routes1 = [
-    { label: '相符覆核表管理', icon: 'mdi:number-1-box' },
-    { label: '碩士報名表管理', icon: 'mdi:number-2-box' },
-    { label: '原創性比對檢核表管理(考試前)', icon: 'mdi:number-3-box' },
-    { label: '原創性比對檢核表管理(考試後)', icon: 'mdi:number-4-box' },
-    { label: '考試異動申請表', icon: 'mdi:number-5-box' }
-];
+
 
 export function getCookie(name) {
     const cDecoded = decodeURIComponent(document.cookie);

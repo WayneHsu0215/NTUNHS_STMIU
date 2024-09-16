@@ -13,7 +13,7 @@ function Root2() {
 
     useEffect(() => {
         // Fetch the questions data
-        fetch('/api/questions2')
+        fetch('/api/student_answer')
             .then(response => response.json())
             .then(data => setQuestions(data.data))
             .catch(error => console.error('Error fetching data:', error));
@@ -90,7 +90,7 @@ function Root2() {
                         <th className="py-2 px-4 border-b">學號</th>
                         <th className="py-2 px-4 border-b">答案</th>
                         <th className="py-2 px-4 border-b">問題</th>
-                        <th className="py-2 px-4 border-b">回答次數</th>
+                        <th className="py-2 px-4 border-b">回答時間</th>
                         <th className="py-2 px-4 border-b">正確性</th>
                         <th className="py-2 px-4 border-b">題目類性</th>
                         <th className="py-2 px-4 border-b">類別</th>
@@ -187,7 +187,7 @@ function Root2() {
                                 <td className="border px-4 py-2">{selectedQuestion.Question}</td>
                             </tr>
                             <tr>
-                                <td className="border px-4 py-2">回答次數</td>
+                                <td className="border px-4 py-2">回答時間</td>
                                 <td className="border px-4 py-2">{selectedQuestion.Answer_Time}</td>
                             </tr>
                             <tr>
