@@ -4,10 +4,11 @@ import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 
 const routes = [
-    { label: '題目檢視', icon: 'quill:paper' , index: 0, path: '/' },
-    { label: '學生答案資料', icon: 'ri:book-line' , index: 1, path: '/root2' },
+    { label: '題目檢視', icon: 'quill:paper' , index: 0, path: '/root1' },
+
     { label: '綜合統計查詢', icon: 'fluent:tag-search-24-regular' , index: 1, path: '/root3' },
     { label: '個別答題情形', icon: 'solar:chart-2-outline' , index: 1, path: '/root4' },
+    { label: '學生答案資料', icon: 'ri:book-line' , index: 1, path: '/root2' },
     // { label: '歷史紀錄', icon: 'eos-icons:storage-class-outlined' },
 ];
 
@@ -39,6 +40,10 @@ const Layout = ({ children }) => {
                             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                                 <Icon icon="carbon:user-avatar-filled" className={`text-white ${isSidebarOpen ? 'text-7xl' : 'text-5xl'}`} />
                             </button>
+
+                        </div>
+                        <div className="mb-4 flex justify-center text-l text-white">
+                            許朝威 老師
                         </div>
                         {isSidebarOpen && <p className="text-center text-white text-lg">{cu}</p>}
 

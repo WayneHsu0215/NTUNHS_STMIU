@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Modal from './Modal';
-import Header from './Header';
+import Modal from '../lib/Modal';
 import { Icon } from '@iconify/react';
 
 const ITEMS_PER_PAGE = 10; // 每页显示的条目数

@@ -48,7 +48,7 @@ const BrainwaveRadarChart = ({ data }) => {
     };
 
     return (
-        <div style={{ width: '400px', height: '400px' }}> {/* 设置父容器大小 */}
+        <div style={{ width: '450px', height: '450px' }}> {/* 设置父容器大小 */}
             <Radar data={chartData} options={options} />
         </div>
     );

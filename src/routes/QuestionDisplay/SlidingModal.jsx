@@ -10,9 +10,8 @@ function SlidingModal({ isOpen, onClose, children }) {
             ></div>
             {/* 右側滑出的面板 */}
             <div
-                className={`ml-auto w-full max-w-md bg-white h-full shadow-xl transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`ml-auto w-full max-w-md bg-white h-screen shadow-xl transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
             >
-                {/* 關閉按鈕 */}
                 <button onClick={onClose} className="absolute top-2 right-2 text-gray-700">
                     X
                 </button>

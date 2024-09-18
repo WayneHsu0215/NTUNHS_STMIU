@@ -20,12 +20,12 @@ function Modal({ isOpen, onClose, children }) {
     }
 
     return (
-        <div className={`fixed inset-0 flex items-center justify-center w-full z-50 transition-opacity duration-500 ${modalState}`}>
+        <div className={`fixed inset-0 flex items-center justify-center w-full z-45 transition-opacity duration-500 ${modalState}`}>
             <div className="absolute inset-0 bg-gray-600/20 bg-opacity-50" onClick={onClose}></div>
             <div
                 className="bg-white p-8 rounded-lg relative z-10"
                 style={{
-                    maxHeight: '80vh',
+                    maxHeight: '95vh',
                     overflowY: 'auto'
                 }}
             >

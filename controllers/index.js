@@ -37,6 +37,30 @@ router.get('/questions', (req, res) => {
   });
 });
 
+router.get('/questions/:prefix', (req, res) => {
+  const prefix = req.params.prefix.toUpperCase(); // 確保前綴是大寫
+
+  // 驗證前綴是否為 A, B 或 C
+  if (!['A', 'B', 'C'].includes(prefix)) {
+    return res.status(400).json({ error: 'Invalid prefix. Use A, B, or C.' });
+  }
+
+  const query = 'SELECT * FROM Teacher_Question WHERE Identity LIKE ?';
+  const params = [`${prefix}%`];
+
+  db.all(query, params, (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.json({
+      data: rows
+    });
+  });
+});
+
+
 router.post('/add_question', (req, res) => {
   const { Date, Time, Question, Type, category, Answer_Correct, Identity } = req.body;
   const query = `

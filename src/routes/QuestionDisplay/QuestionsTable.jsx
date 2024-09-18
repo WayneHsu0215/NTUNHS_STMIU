@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon } from '@iconify/react';
 
-const ITEMS_PER_PAGE = 10; // 每页显示的条目数
+const ITEMS_PER_PAGE = 15; // 每页显示的条目数
 
 function QuestionsTable({ questions, handleOpenModal, handleDeleteQuestion }) {
     const [currentPage, setCurrentPage] = React.useState(1); // 当前页码

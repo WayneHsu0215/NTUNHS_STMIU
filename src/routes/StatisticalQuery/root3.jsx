@@ -109,21 +109,26 @@ const StatsChart = () => {
             </button>
 
             {chartData && (
-                <Bar
-                    data={chartData}
-                    options={{
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: '正確率與錯誤率統計',
-                            },
-                        },
-                        responsive: true,
-                    }}
-                />
+                <div className="flex justify-center">
+                    <div style={{ width: '1200px', height: '1000px' }}>
+                        <Bar
+                            data={chartData}
+                            options={{
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: '正確率與錯誤率統計',
+                                    },
+                                },
+                                responsive: true,
+                            }}
+                        />
+                    </div>
+                </div>
             )}
-        </div>
-    );
-};
 
-export default StatsChart;
+        </div>
+            );
+            };
+
+            export default StatsChart;

@@ -14,24 +14,24 @@ const MixedChart = ({ answers, answerTimes }) => {
                 type: 'bar',
                 label: 'ATT',
                 data: answers.map(answer => answer.ATT), // ATT values
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                backgroundColor: 'rgba(75, 192, 192, 0.1)', // 透明度調低
+                borderColor: 'rgba(75, 192, 192, 0.6)', // 柔和的邊框顏色
+                borderWidth: 0.5, // 邊框粗細調整
             },
             {
                 type: 'bar',
                 label: 'MED',
                 data: answers.map(answer => answer.MED), // MED values
-                backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                borderColor: 'rgba(255, 159, 64, 1)',
-                borderWidth: 1
+                backgroundColor: 'rgba(255, 159, 64, 0.1)', // 透明度調低
+                borderColor: 'rgba(255, 159, 64, 0.6)', // 柔和的邊框顏色
+                borderWidth: 0.5, // 邊框粗細調整
             },
             {
                 type: 'line',
                 label: '回答時間 (秒)',
                 data: answerTimes.map(time => time.Answer_Time), // Answer_Time values
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 0.6)', // 調整線條顏色的透明度
+                backgroundColor: 'rgba(54, 162, 235, 0.1)', // 更柔和的線條背景
                 fill: false,
                 tension: 0.4
             }
