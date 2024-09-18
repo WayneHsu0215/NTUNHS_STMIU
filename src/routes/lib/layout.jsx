@@ -77,10 +77,11 @@ const Layout = ({ children }) => {
 
                     <div className="flex flex-col items-center">
                         <button
+                            onClick={() => { window.location.href = "/login"; }}
                             className="flex items-center justify-center h-10 px-3 bg-red text-white rounded-lg hover:bg-white hover:text-black transition-colors duration-200 mb-2"
                         >
                             <Icon icon="tabler:logout" className="text-lg" />
-                            {isSidebarOpen && <span className="ml-3">登出</span>}
+                            {isSidebarOpen && <span className="ml-3" >登出</span>}
                         </button>
                         <button
                             className="p-2 bg-white hover:bg-gray-200 h-10 px-3 rounded-full shadow"
