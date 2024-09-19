@@ -114,6 +114,9 @@ router.get('/student_answer', (req, res) => {
   });
 });
 
+
+
+
 router.get('/student_stats', (req, res) => {
   const { uuid, question_type, category } = req.query;
   let query = 'SELECT Question_type, Category, Correct, COUNT(*) as count FROM student_answer WHERE 1=1';
@@ -189,4 +192,22 @@ router.get('/predict', (req, res) => {
     });
   });
 });
+
+router.get('/brainwaves', (req, res) => {
+  const query = 'SELECT * FROM Brainwaves';
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      data: rows
+    });
+  });
+});
+
+
+
 export default router;

@@ -1,49 +1,89 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '../lib/Modal';
-import StudentTable from './StudentTable'; // 引入模块化的表格组件
-import studentData from '../fake_data/student_information.json';
-import predictData from '../fake_data/predict.json'; // 引入 predict.json
-import answerData from '../fake_data/student_answer.json'; // 引入 student_answer.json
-import studentPhoto from '../fake_data/102214230.jpg';
-import arduinoData from '../fake_data/Arduino.json'; // 引入 Arduino 数据
-
-import MixedChart from './MixedChart'; // 引入 MixedChart 组件
-import {Icon} from '@iconify/react';
-import BrainwaveRadarChart from './BrainwaveRadarChart'; // 引入雷达图组件
+import studentData from '../fake_data/student_information.json'; // 假設包含所有學生資料
+import predictData from '../fake_data/predict.json'; // 假設包含預測數據
+import arduinoData from '../fake_data/Arduino.json'; // 假設包含腦波數據
+import MixedChart from './MixedChart'; // 假設是一個混合圖表組件
+import { Icon } from '@iconify/react';
+import BrainwaveRadarChart from './BrainwaveRadarChart'; // 假設是腦波雷達圖組件
 import { toast } from 'react-toastify';
+import studentPhoto from '../fake_data/102214238.jpg'; // 假設是學生照片
 
-
-const ITEMS_PER_PAGE = 10; // 每页显示的条目数
+const ITEMS_PER_PAGE = 10; // 每頁顯示的條目數
 
 function StudentAnswerList() {
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1); // 当前页码
+    const [currentPage, setCurrentPage] = useState(1); // 當前頁碼
+    const [answerData, setAnswerData] = useState([]); // 狀態存儲 API 數據
+    const [loading, setLoading] = useState(true); // 加載狀態
+    const [error, setError] = useState(null); // 錯誤狀態
 
-    // 遍歷 predictData 中的每個 UUID，取出唯一 UUID 來展示
-    const uniqueClassGroups = predictData.data.reduce((acc, item) => {
-        if (!acc.some(group => group.UUID === item.UUID)) {
+    // 獲取 API 數據
+    useEffect(() => {
+        fetch('/api/student_answer') // 假設 API 路徑為 /api/student_answer
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('網絡響應不是 OK');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setAnswerData(data.data); // 假設 API 返回的數據在 data.data
+                setLoading(false);
+                console.log('Answer Data:', data.data.slice(0, 5)); // 打印前 5 條答題記錄
+                console.log('Student Data:', studentData.data.slice(0, 5)); // 打印前 5 條學生記錄
+            })
+            .catch(error => {
+                console.error('獲取數據時出錯:', error);
+                setError(error);
+                setLoading(false);
+                toast.error('資料載入失敗！');
+            });
+    }, []);
+
+    // 根據 Class_num 對數據進行分組，確保每個 Class_num 只出現一次
+    const uniqueClassGroups = answerData.reduce((acc, item) => {
+        if (!acc.some(group => group.Class_num === item.Class_num)) {
             acc.push(item);
         }
         return acc;
-    }, []);
+    }, []).map(group => {
+        // 使用 UUID 對應學生資料
+        const student = studentData.data.find(s => s.UUID === group.UUID);
+        return {
+            ...group,
+            Name: student ? student.Name : '未知',
+            gender: student ? student.gender : '未知',
+            grade: student ? student.grade : '未知',
+            department: student ? student.department : '未知'
+        };
+    });
 
+    console.log('Unique Class Groups:', uniqueClassGroups.slice(0, 5));
 
-    // 分页数据处理
+    // 分頁數據處理
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
     const currentItems = uniqueClassGroups.slice(indexOfFirstItem, indexOfLastItem);
-
     const totalPages = Math.ceil(uniqueClassGroups.length / ITEMS_PER_PAGE);
 
-    // 打开 Modal
-    const openModal = (classID) => {
-        const studentAnswers = answerData.data.filter(answer => answer.UUID === classID);
-        const student = studentData.data.find(s => s.Student_ID === studentAnswers[0]?.Student_ID);
+    // 打開 Modal，顯示選定 Class_num 下的所有答題詳情
+    const openModal = (classNum) => {
+        const studentAnswers = answerData.filter(answer => answer.Class_num === classNum);
+        console.log('studentAnswers:', studentAnswers); // 打印答題記錄
+
+        if (studentAnswers.length === 0) {
+            toast.error('沒有找到相關資料！');
+            return;
+        }
+        const uuid = studentAnswers[0].UUID;
+        const student = studentData.data.find(s => s.UUID === uuid);
+        console.log('Found Student:', student); // 打印找到的學生資料
 
         if (student && studentAnswers.length > 0) {
-            const studentPredictData = predictData.data.filter(predict => predict.Student_ID === student.Student_ID); // 获取学生的 predict 数据
-            const studentBrainwaveData = arduinoData.data.find(brainwave => brainwave.Student === student.Student_ID); // 获取学生的脑波数据
+            const studentPredictData = predictData.data.filter(predict => predict.UUID === student.UUID); // 假設 predictData 使用 UUID
+            const studentBrainwaveData = arduinoData.data.find(brainwave => brainwave.UUID === student.UUID); // 假設 arduinoData 使用 UUID
             setSelectedStudent({
                 ...student,
                 answers: studentAnswers,
@@ -52,16 +92,18 @@ function StudentAnswerList() {
             });
             setIsOpen(true);
             toast.success('資料載入成功！');
+        } else {
+            toast.error('找不到學生資料！');
         }
     };
 
-    // 关闭 Modal
+    // 關閉 Modal
     const closeModal = () => {
         setSelectedStudent(null);
         setIsOpen(false);
     };
 
-    // 页面跳转功能
+    // 頁面跳轉功能
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
@@ -74,8 +116,17 @@ function StudentAnswerList() {
         }
     };
 
+    // 顯示加載狀態或錯誤信息
+    if (loading) {
+        return <div className="text-center mt-10">加載中...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center mt-10 text-red-500">加載數據時出錯: {error.message}</div>;
+    }
+
     return (
-        <div className="overflow-x-auto  px-4 sm:px-6 lg:px-8"> {/* 增加左右 padding */}
+        <div className="overflow-x-auto px-4 sm:px-6 lg:px-8"> {/* 增加左右 padding */}
 
             <div className="flex justify-between items-center mt-4 mb-4">
                 <h1 className="text-3xl font-bold">
@@ -83,21 +134,48 @@ function StudentAnswerList() {
                 </h1>
             </div>
 
-            {/* 使用 StudentTable 模块化的表格组件 */}
-            <StudentTable currentItems={currentItems} openModal={openModal}/>
+            {/* 表格顯示部分 */}
+            <table className="min-w-full bg-white border border-gray-200 rounded-lg text-center">
+                <thead>
+                <tr>
+                    <th className="py-2 px-4 border-b">班級編號</th>
+                    <th className="py-2 px-4 border-b">學號 (UUID)</th>
+                    <th className="py-2 px-4 border-b">日期</th>
+                    <th className="py-2 px-4 border-b">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {currentItems.map(item => (
+                    <tr key={item.Class_num} className="border-t odd:bg-gray-100 hover:bg-gray-200">
+                        <td className="py-2 px-4">{item.Class_num}</td>
+                        <td className="py-2 px-4">{item.UUID}</td>
+                        <td className="py-2 px-4">{item.Date}</td>
+                        <td className="py-2 px-4 flex justify-center space-x-2">
+                            <button
+                                className="bg-blue-500 text-white py-1 px-3 rounded flex items-center"
+                                onClick={() => openModal(item.Class_num)}
+                            >
+                                <Icon icon="carbon:view" className="mr-2" />
+                                查看詳情
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
 
+            {/* Modal 組件，顯示學生答題詳情 */}
             <Modal isOpen={isOpen} onClose={closeModal}>
                 {selectedStudent && (
-                    <div className="p-3  bg-white rounded-lg shadow-lg">
-                        {/*text-indigo-600*/}
-                        <h2 className="text-3xl font-bold mb-3  text-center text-gray-800">
+                    <div className="p-3 bg-white rounded-lg shadow-lg">
+                        <h2 className="text-3xl font-bold mb-3 text-center text-gray-800">
                             {selectedStudent.Name}同學 的回答記錄
                         </h2>
 
                         <div className="flex flex-wrap"> {/* 使用 flex 布局 */}
 
-                            {/* 左边部分：学生基本资料和表格 */}
-                            <div className="w-full lg:w-1/2 pr-4"> {/* 左边部分占一半宽度 */}
+                            {/* 左邊部分：學生基本資料和表格 */}
+                            <div className="w-full lg:w-1/2 pr-4"> {/* 左邊部分占一半寬度 */}
                                 <div className="flex items-center mb-6">
                                     <img
                                         src={studentPhoto}
@@ -109,7 +187,7 @@ function StudentAnswerList() {
                                         <p className="mb-2 text-xl">
                                             <strong>答題日期：</strong>
                                             <span className="text-blue-600">
-                                                {selectedStudent.predictData[0].Date}
+                                                {selectedStudent.predictData[0]?.Date || 'N/A'}
                                             </span>
                                         </p>
                                         <p className="mb-2 text-xl">
@@ -121,16 +199,16 @@ function StudentAnswerList() {
                                         <p className="mb-2 text-xl">
                                             <strong>答題正確率：</strong>
                                             <span className="text-blue-700 font-bold">
-        {(
-            (selectedStudent.answers.filter(answer =>
-                answer.Correct.trim().toLowerCase() === answer.Answer.trim().toLowerCase()
-            ).length / selectedStudent.answers.length) * 100
-        ).toFixed(2)}%
-    </span>
+                                                {(
+                                                    (selectedStudent.answers.filter(answer =>
+                                                        answer.Correct.trim().toLowerCase() === answer.Answer.trim().toLowerCase()
+                                                    ).length / selectedStudent.answers.length) * 100
+                                                ).toFixed(2)}%
+                                            </span>
                                         </p>
                                         <p className="mb-2 text-xl">
-                                            <strong>學號：</strong>
-                                            <span className="text-blue-600">{selectedStudent.Student_ID}</span>
+                                            <strong>學號 (UUID)：</strong>
+                                            <span className="text-blue-600">{selectedStudent.UUID}</span>
                                         </p>
                                         <p className="mb-2 text-xl">
                                             <strong>性別：</strong>
@@ -144,8 +222,6 @@ function StudentAnswerList() {
                                             <strong>系所：</strong>
                                             <span className="text-blue-600">{selectedStudent.department}</span>
                                         </p>
-
-
                                     </div>
                                 </div>
 
@@ -174,13 +250,11 @@ function StudentAnswerList() {
                                 </table>
                             </div>
 
-                            {/* 右边部分：图表 */}
-                            <div
-                                className="w-full lg:w-1/2 flex flex-col items-center">
-                                <h3 className="text-2xl font-semibold text-indigo-600 b-4">腦波數據雷達圖</h3>
+                            {/* 右邊部分：圖表 */}
+                            <div className="w-full lg:w-1/2 flex flex-col items-center">
+                                <h3 className="text-2xl font-semibold text-indigo-600 mb-4">腦波數據雷達圖</h3>
                                 {selectedStudent.brainwaveData && (
                                     <div className="mx-auto">
-
                                         <BrainwaveRadarChart data={selectedStudent.brainwaveData}/>
                                     </div>
                                 )}
@@ -192,32 +266,31 @@ function StudentAnswerList() {
                                 </div>
                             </div>
 
-
                         </div>
                     </div>
                 )}
             </Modal>
 
-
-            {/*<div className="flex justify-between items-center mt-4 mb-6">*/}
-            {/*    <button*/}
-            {/*        className={`py-2 px-4 rounded bg-gray-300 text-black ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}*/}
-            {/*        onClick={handlePreviousPage}*/}
-            {/*        disabled={currentPage === 1}*/}
-            {/*    >*/}
-            {/*        <Icon icon="akar-icons:arrow-left" className="inline mr-2"/>*/}
-            {/*        上一頁*/}
-            {/*    </button>*/}
-            {/*    <p>頁碼: {currentPage} / {totalPages}</p>*/}
-            {/*    <button*/}
-            {/*        className={`py-2 px-4 rounded bg-gray-300 text-black ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}*/}
-            {/*        onClick={handleNextPage}*/}
-            {/*        disabled={currentPage === totalPages}*/}
-            {/*    >*/}
-            {/*        下一頁*/}
-            {/*        <Icon icon="akar-icons:arrow-right" className="inline ml-2" />*/}
-            {/*    </button>*/}
-            {/*</div>*/}
+            {/* 分頁控件 */}
+            <div className="flex justify-between items-center mt-4 mb-6">
+                <button
+                    className={`py-2 px-4 rounded bg-gray-300 text-black ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                >
+                    <Icon icon="akar-icons:arrow-left" className="inline mr-2"/>
+                    上一頁
+                </button>
+                <p>頁碼: {currentPage} / {totalPages}</p>
+                <button
+                    className={`py-2 px-4 rounded bg-gray-300 text-black ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`}
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                >
+                    下一頁
+                    <Icon icon="akar-icons:arrow-right" className="inline ml-2" />
+                </button>
+            </div>
         </div>
     );
 }
