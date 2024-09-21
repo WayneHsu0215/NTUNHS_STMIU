@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../lib/Modal';
 import studentData from '../fake_data/student_information.json'; // 假設包含所有學生資料
-import predictData from '../fake_data/predict.json'; // 假設包含預測數據
-import arduinoData from '../fake_data/Arduino.json'; // 假設包含腦波數據
-import MixedChart from './MixedChart'; // 假設是一個混合圖表組件
+import MixedChart from './MixedChart'; // 混合圖表組件
 import { Icon } from '@iconify/react';
-import BrainwaveRadarChart from './BrainwaveRadarChart'; // 假設是腦波雷達圖組件
+import BrainwaveRadarChart from './BrainwaveRadarChart'; // 腦波雷達圖組件
 import { toast } from 'react-toastify';
-import studentPhoto from '../fake_data/102214238.jpg'; // 假設是學生照片
+import studentPhoto from '../fake_data/102214238.jpg'; // 學生照片
 
 const ITEMS_PER_PAGE = 10; // 每頁顯示的條目數
 
@@ -15,24 +13,40 @@ function StudentAnswerList() {
     const [selectedStudent, setSelectedStudent] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1); // 當前頁碼
-    const [answerData, setAnswerData] = useState([]); // 狀態存儲 API 數據
+    const [answerData, setAnswerData] = useState([]); // /api/student_answer 數據
+    const [predictData, setPredictData] = useState([]); // /api/predict 數據
+    const [brainwaveData, setBrainwaveData] = useState([]); // /api/brainwaves 數據
     const [loading, setLoading] = useState(true); // 加載狀態
     const [error, setError] = useState(null); // 錯誤狀態
 
     // 獲取 API 數據
     useEffect(() => {
-        fetch('/api/student_answer') // 假設 API 路徑為 /api/student_answer
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('網絡響應不是 OK');
+        setLoading(true);
+        Promise.all([
+            fetch('/api/student_answer'), // 獲取答題時間數據
+            fetch('/api/predict'), // 獲取 ATT 和 MED 數據
+            fetch('/api/brainwaves') // 獲取腦波數據
+        ])
+            .then(async ([answerRes, predictRes, brainwaveRes]) => {
+                if (!answerRes.ok) {
+                    throw new Error('獲取答題時間數據失敗');
                 }
-                return response.json();
-            })
-            .then(data => {
-                setAnswerData(data.data); // 假設 API 返回的數據在 data.data
+                if (!predictRes.ok) {
+                    throw new Error('獲取預測數據失敗');
+                }
+                if (!brainwaveRes.ok) {
+                    throw new Error('獲取腦波數據失敗');
+                }
+                const answerJson = await answerRes.json();
+                const predictJson = await predictRes.json();
+                const brainwaveJson = await brainwaveRes.json();
+                setAnswerData(answerJson.data);
+                setPredictData(predictJson.data);
+                setBrainwaveData(brainwaveJson.data);
                 setLoading(false);
-                console.log('Answer Data:', data.data.slice(0, 5)); // 打印前 5 條答題記錄
-                console.log('Student Data:', studentData.data.slice(0, 5)); // 打印前 5 條學生記錄
+                console.log('Answer Data:', answerJson.data.slice(0, 5)); // 打印前 5 條答題記錄
+                console.log('Predict Data:', predictJson.data.slice(0, 5)); // 打印前 5 條預測記錄
+                console.log('Brainwave Data:', brainwaveJson.data.slice(0, 5)); // 打印前 5 條腦波記錄
             })
             .catch(error => {
                 console.error('獲取數據時出錯:', error);
@@ -42,7 +56,7 @@ function StudentAnswerList() {
             });
     }, []);
 
-    // 根據 Class_num 對數據進行分組，確保每個 Class_num 只出現一次
+    // 根據 Class_num 對答題數據進行分組，確保每個 Class_num 只出現一次
     const uniqueClassGroups = answerData.reduce((acc, item) => {
         if (!acc.some(group => group.Class_num === item.Class_num)) {
             acc.push(item);
@@ -82,13 +96,44 @@ function StudentAnswerList() {
         console.log('Found Student:', student); // 打印找到的學生資料
 
         if (student && studentAnswers.length > 0) {
-            const studentPredictData = predictData.data.filter(predict => predict.UUID === student.UUID); // 假設 predictData 使用 UUID
-            const studentBrainwaveData = arduinoData.data.find(brainwave => brainwave.UUID === student.UUID); // 假設 arduinoData 使用 UUID
+            // 找到該班級和學生的預測數據，僅匹配 class_num
+            const studentPredictData = predictData.filter(predict => predict.UUID === student.UUID && predict.Class_num === classNum);
+            // 過濾該班級的腦波數據
+            const classBrainwaveData = brainwaveData.filter(brainwave => brainwave.Class_num === classNum && brainwave.UUID === student.UUID);
+            // 計算平均腦波數據
+            const averagedBrainwaveData = classBrainwaveData.reduce((acc, curr) => {
+                acc.Delta += parseFloat(curr.Delta);
+                acc.Theta += parseFloat(curr.Theta);
+                acc.Low_Alpha += parseFloat(curr.Low_Alpha);
+                acc.High_Alpha += parseFloat(curr.High_Alpha);
+                acc.Low_Beta += parseFloat(curr.Low_Beta);
+                acc.High_Beta += parseFloat(curr.High_Beta);
+                acc.Low_Gamma += parseFloat(curr.Low_Gamma);
+                acc.Mid_Gamma += parseFloat(curr.Mid_Gamma);
+                return acc;
+            }, {
+                Delta: 0,
+                Theta: 0,
+                Low_Alpha: 0,
+                High_Alpha: 0,
+                Low_Beta: 0,
+                High_Beta: 0,
+                Low_Gamma: 0,
+                Mid_Gamma: 0
+            });
+
+            const count = classBrainwaveData.length;
+            if (count > 0) {
+                Object.keys(averagedBrainwaveData).forEach(key => {
+                    averagedBrainwaveData[key] = (averagedBrainwaveData[key] / count).toFixed(3);
+                });
+            }
+
             setSelectedStudent({
                 ...student,
                 answers: studentAnswers,
                 predictData: studentPredictData,
-                brainwaveData: studentBrainwaveData
+                brainwaveData: averagedBrainwaveData
             });
             setIsOpen(true);
             toast.success('資料載入成功！');
@@ -293,6 +338,7 @@ function StudentAnswerList() {
             </div>
         </div>
     );
+
 }
 
 export default StudentAnswerList;
