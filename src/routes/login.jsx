@@ -200,7 +200,7 @@ const Login = () => {
                         <div ><h1 className="text-center m-8 py-2 text-3xl font-semibold   "><Icon className="text-4xl mr-4 inline " icon="line-md:account" />
                             老師登入</h1></div>
 
-                        <div ><h1 className="text-center py-2 text-3xl font-semibold   ">北護神經回饋學習分析平台</h1></div>
+                        <div ><h1 className="text-center py-2 text-3xl font-semibold   ">SnowOwl腦波監測與AI預測之學生問答與分析系統</h1></div>
 
                         <div className="divide-y divide-gray-200">
                             {/*form框*/}

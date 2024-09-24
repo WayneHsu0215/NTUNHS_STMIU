@@ -1,5 +1,6 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
+import LOGO1 from './lolo.png';
 import LOGO from './ICON.png';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend} from 'chart.js';
 
@@ -46,8 +47,8 @@ const HomePage = () => {
             <header className="bg-white shadow">
                 <div className="container mx-auto px-4 py-6 flex justify-between items-center">
                     <div className="flex items-center">
-                        <img src={LOGO} alt="描述圖片" className="inline w-20 h-auto"/>
-                        <h1 className="text-3xl font-bold text-indigo-600 ml-4">北護神經回饋學習分析平台</h1>
+                        <img src={LOGO1} alt="描述圖片" className="inline w-20 h-auto"/>
+                        <h1 className="text-3xl font-bold text-indigo-600 ml-4">SnowOwl腦波監測與AI預測之學生問答與分析系統</h1>
                     </div>
 
                     <nav>
@@ -64,7 +65,7 @@ const HomePage = () => {
             {/* Hero 部分 */}
             <section className="bg-indigo-600 text-white py-20" id="home">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-4xl font-bold mb-4">歡迎來到神經回饋學習分析平台</h2>
+                    <h2 className="text-4xl font-bold mb-4">歡迎來到SnowOwl腦波監測與AI預測之學生問答與分析系統</h2>
                     <p className="text-xl mb-8">我們的系統能幫助您追蹤學生的答題表現與數據分析。</p>
                     <a
                         href="http://192.168.11.89:4567/login"
