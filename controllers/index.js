@@ -4,7 +4,7 @@ import sqlite3 from 'sqlite3';
 const router = Router();
 
 const db = new sqlite3.Database('./predict1.db');
-const db1 = new sqlite3.Database('./interactive_student.db');
+const db1 = new sqlite3.Database('./predict1.db');
 
 router.get('/tables', (req, res) => {
     const query = "SELECT name FROM sqlite_master WHERE type='table'";
@@ -37,9 +37,6 @@ router.get('/questions', (req, res) => {
   });
 });
 
-
-
-
 router.get('/questions/:prefix', (req, res) => {
   const prefix = req.params.prefix.toUpperCase(); // 確保前綴是大寫
 
@@ -62,7 +59,6 @@ router.get('/questions/:prefix', (req, res) => {
     });
   });
 });
-
 
 router.post('/add_question', (req, res) => {
   const { Date, Time, Question, Type, category, Answer_Correct, Identity } = req.body;
@@ -117,6 +113,23 @@ router.get('/student_answer', (req, res) => {
   });
 });
 
+router.get('/student_answer_date', (req, res) => {
+  const { startDate, endDate } = req.query;
+
+  const query = 'SELECT * FROM student_answer WHERE DATE(date) BETWEEN ? AND ?';
+  const params = [startDate, endDate];
+
+  db.all(query, params, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      data: rows
+    });
+  });
+});
 
 
 
@@ -163,8 +176,6 @@ router.get('/student_stats', (req, res) => {
   });
 });
 
-
-
 router.get('/Arduino', (req, res) => {
   const query = 'SELECT * FROM Normalized_data';
 
@@ -179,7 +190,6 @@ router.get('/Arduino', (req, res) => {
     });
   });
 });
-
 
 router.get('/predict', (req, res) => {
   const query = 'SELECT * FROM predict';
@@ -211,6 +221,41 @@ router.get('/brainwaves', (req, res) => {
   });
 });
 
+router.post('/addStudentDetails', (req, res) => {
+    const { UUID, Name, gender,grade,department } = req.body;
+    console.log('UUID', UUID);
+    console.log('Name', Name);
+    console.log('gender',gender);
+    console.log('grade',grade);
+    console.log('department',department);
+    const query = `INSERT INTO UUID (UUID, Name, gender,grade,department) VALUES (?, ?, ?, ?, ?)`;
+    const params = [UUID, Name, gender,grade,department];
+    console.log(params);
+    db.run(query, params, function (err) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json({
+      message: 'New question added successfully',
+      id: this.lastID
+    });
+  });
+});
 
+router.get('/student_details', (req, res) => {
+  const query = 'SELECT * FROM UUID';
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      data: rows
+    });
+  });
+});
 
 export default router;

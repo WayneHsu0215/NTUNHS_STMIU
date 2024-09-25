@@ -11,6 +11,7 @@ import './index.css'
 import Layout from './routes/lib/layout';
 import HomePage from "./routes/HomePage/homepage.jsx";
 import Login   from "./routes/login.jsx";
+import AddStudent from './routes/StudentDetail/AddStudent';
 
 import StudentAnswerList from './routes/StudentDetail/StudentAnswerList';
 
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     { path: "/root2", element: <Layout><Root2 /></Layout> },
     { path: "/root3", element: <Layout><StatsChart /></Layout> },
     { path: "/root4", element: <Layout><StudentAnswerList /></Layout> },
+    { path: "/root5", element: <Layout><AddStudent /></Layout> },
     { path: "/login", element: <Login /> },
     { path: "/", element: <HomePage /> },
 ]);
