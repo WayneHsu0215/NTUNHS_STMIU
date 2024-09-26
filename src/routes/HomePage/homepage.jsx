@@ -68,7 +68,7 @@ const HomePage = () => {
                     <h2 className="text-4xl font-bold mb-4">歡迎來到SnowOwl腦波監測與AI預測之學生問答與分析系統</h2>
                     <p className="text-xl mb-8">我們的系統能幫助您追蹤學生的答題表現與數據分析。</p>
                     <a
-                        href="http://192.168.11.89:4567/login"
+                        href="/login"
                         className="bg-white mr-4 text-indigo-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100"
                         target="_blank"
                         rel="noopener noreferrer"

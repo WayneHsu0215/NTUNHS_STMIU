@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Modal from '../lib/Modal';
 import studentData from '../fake_data/student_information.json'; // 假設包含所有學生資料
 import MixedChart from './MixedChart'; // 混合圖表組件
-import { Icon } from '@iconify/react';
+import {Icon} from '@iconify/react';
 import BrainwaveRadarChart from './BrainwaveRadarChart'; // 腦波雷達圖組件
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import studentPhoto from '../fake_data/102214238.jpg'; // 學生照片
 
 const ITEMS_PER_PAGE = 10; // 每頁顯示的條目數
@@ -18,6 +18,9 @@ function StudentAnswerList() {
     const [brainwaveData, setBrainwaveData] = useState([]); // /api/brainwaves 數據
     const [loading, setLoading] = useState(true); // 加載狀態
     const [error, setError] = useState(null); // 錯誤狀態
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+
 
     // 獲取 API 數據
     useEffect(() => {
@@ -170,13 +173,89 @@ function StudentAnswerList() {
         return <div className="text-center mt-10 text-red-500">加載數據時出錯: {error.message}</div>;
     }
 
+    const searchList = async () => {
+        if (!startDate || !endDate) {
+            toast.error('請選擇日期範圍！');
+            return;
+        }
+        console.log(startDate, endDate);
+
+        try {
+            const response = await fetch(`/api/student_answer_date?startDate=${startDate}&endDate=${endDate}`);
+
+            if (!response.ok) {
+                toast.error('查詢失敗！');
+                return;
+            }
+
+            const data = await response.json();
+            setAnswerData(data.data);
+            setCurrentPage(1);
+            toast.success('查詢成功！');
+        } catch (error) {
+            console.error('Fetch error:', error);
+            toast.error('查詢過程中出現錯誤！');
+        }
+    };
+
+    const showAllList = async () => {
+        try {
+            const response = await fetch('/api/student_answer');
+            if (!response.ok) {
+                toast.error('查詢失敗！');
+                return;
+            }
+            const data = await response.json();
+            setAnswerData(data.data);
+            setCurrentPage(1);
+            toast.success('查詢成功！');
+        } catch (error) {
+            console.error('Fetch error:', error);
+            toast.error('查詢過程中出現錯誤！');
+        }
+    }
+
+
     return (
         <div className="overflow-x-auto px-4 sm:px-6 lg:px-8"> {/* 增加左右 padding */}
-
             <div className="flex justify-between items-center mt-4 mb-4">
                 <h1 className="text-3xl font-bold">
                     <Icon className="inline mr-4" icon="pajamas:question"/> 學生答題紀錄
                 </h1>
+                <div className="flex space-x-2">
+
+                    <form className="flex items-center space-x-2" onSubmit={(e) => {
+                        e.preventDefault();
+                        searchList();
+                    }}>
+                        <label htmlFor="startDate" className="text-lg">日期範圍：</label>
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            placeholder="開始日期"
+                            className="border border-gray-300 rounded px-3 py-2"
+                            required // Optional: makes the input mandatory
+                        />
+                        <span>~</span>
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            placeholder="最晚日期"
+                            className="border border-gray-300 rounded px-3 py-2"
+                            required // Optional: makes the input mandatory
+                        />
+                        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+                            搜尋
+                        </button>
+                    </form>
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded"
+                            onClick={() => showAllList()}>
+                        顯示全部
+                    </button>
+                </div>
+
             </div>
 
             {/* 表格顯示部分 */}
@@ -200,7 +279,7 @@ function StudentAnswerList() {
                                 className="bg-blue-500 text-white py-1 px-3 rounded flex items-center"
                                 onClick={() => openModal(item.Class_num)}
                             >
-                                <Icon icon="carbon:view" className="mr-2" />
+                                <Icon icon="carbon:view" className="mr-2"/>
                                 查看詳情
                             </button>
                         </td>
@@ -333,7 +412,7 @@ function StudentAnswerList() {
                     disabled={currentPage === totalPages}
                 >
                     下一頁
-                    <Icon icon="akar-icons:arrow-right" className="inline ml-2" />
+                    <Icon icon="akar-icons:arrow-right" className="inline ml-2"/>
                 </button>
             </div>
         </div>

@@ -200,13 +200,16 @@ const Login = () => {
                         <div ><h1 className="text-center m-8 py-2 text-3xl font-semibold   "><Icon className="text-4xl mr-4 inline " icon="line-md:account" />
                             老師登入</h1></div>
 
-                        <div ><h1 className="text-center py-2 text-3xl font-semibold   ">SnowOwl腦波監測與AI預測之學生問答與分析系統</h1></div>
+                        <div>
+                            <h1 className="text-center py-2 text-3xl font-semibold">SnowOwl</h1>
+                            <h1 className="text-center py-2 text-3xl font-semibold">腦波監測與AI預測之學生問答與分析系統</h1>
+                        </div>
 
                         <div className="divide-y divide-gray-200">
-                            {/*form框*/}
+                        {/*form框*/}
                             <form onSubmit={handleLogin}>
                                 <div className="py-10 px-8  text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7 ">
-                                    <div className=" relative w-80 ">
+                                    <div className="relative ">
                                         <input
                                             type="text"
                                             id="account"
@@ -215,7 +218,7 @@ const Login = () => {
                                             // value={Account}
                                             required
                                             onChange={handleChange}
-                                            className="rounded-lg peer placeholder-transparent h-12 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none "
+                                            className="rounded-lg peer placeholder-transparent h-16 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none "
                                             placeholder="Username"
                                         />
                                         <label htmlFor="account"
@@ -224,7 +227,7 @@ const Login = () => {
                                             Username
                                         </label>
                                     </div>
-                                    <div className="relative w-80">
+                                    <div className="relative">
                                         <input
                                             type={showPassword ? 'text' : 'password'}
                                             id="password"
@@ -233,7 +236,7 @@ const Login = () => {
                                             // value={password}
                                             onChange={handleChange}
                                             placeholder="Password"
-                                            className="rounded-lg peer placeholder-transparent h-12 w-full mb-8 mt-4 border-b-2 border-gray-300 text-gray-900 focus:outline-none"
+                                            className="rounded-lg peer placeholder-transparent h-16 w-full mb-8 mt-4 border-b-2 border-gray-300 text-gray-900 focus:outline-none"
                                         />
                                         <label
                                             htmlFor="password"
