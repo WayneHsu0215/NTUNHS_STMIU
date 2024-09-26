@@ -3,7 +3,7 @@ import sqlite3 from 'sqlite3';
 
 const router = Router();
 
-const db = new sqlite3.Database('./home/pi/Desktop/smart_teacher/predict1.db');
+const db = new sqlite3.Database('/home/pi/Desktop/smart_teacher/predict1.db');
 const db1 = new sqlite3.Database('./interactive_student.db');
 
 router.get('/tables', (req, res) => {
