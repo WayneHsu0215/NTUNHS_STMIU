@@ -62,22 +62,22 @@ function Root2() {
                 <h1 className="text-3xl font-bold">
                     <Icon className="inline mr-4" icon="pajamas:question" />學生答案
                 </h1>
-                <div className="flex space-x-4">
-                    <button
-                        className="bg-green-500 text-white py-2 px-4 rounded flex items-center"
-                        onClick={() => console.log('新增資料')}
-                    >
-                        <Icon icon="carbon:add-filled" className="mr-2" />
-                        新增資料
-                    </button>
-                    <button
-                        className="bg-blue-500 text-white py-2 px-4 rounded flex items-center"
-                        onClick={() => console.log('查詢資料')}
-                    >
-                        <Icon icon="carbon:search" className="mr-2" />
-                        查詢資料
-                    </button>
-                </div>
+                {/*<div className="flex space-x-4">*/}
+                {/*    <button*/}
+                {/*        className="bg-green-500 text-white py-2 px-4 rounded flex items-center"*/}
+                {/*        onClick={() => console.log('新增資料')}*/}
+                {/*    >*/}
+                {/*        <Icon icon="carbon:add-filled" className="mr-2" />*/}
+                {/*        新增資料*/}
+                {/*    </button>*/}
+                {/*    <button*/}
+                {/*        className="bg-blue-500 text-white py-2 px-4 rounded flex items-center"*/}
+                {/*        onClick={() => console.log('查詢資料')}*/}
+                {/*    >*/}
+                {/*        <Icon icon="carbon:search" className="mr-2" />*/}
+                {/*        查詢資料*/}
+                {/*    </button>*/}
+                {/*</div>*/}
             </div>
 
             <table className="min-w-full bg-white border border-gray-200 rounded-l-lg text-center">
