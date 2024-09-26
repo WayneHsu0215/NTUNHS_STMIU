@@ -162,7 +162,7 @@ router.get('/student_stats', (req, res) => {
     const stats = rows.reduce((acc, row) => {
       if (!acc[row.Question_type]) acc[row.Question_type] = {};
       if (!acc[row.Question_type][row.Category]) acc[row.Question_type][row.Category] = { correct: 0, incorrect: 0 };
-      if (row.Correct === 'Correct') {
+      if (row.Correct === '正確') {
         acc[row.Question_type][row.Category].correct += row.count;
       } else {
         acc[row.Question_type][row.Category].incorrect += row.count;
