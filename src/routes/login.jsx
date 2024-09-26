@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {toast} from 'react-toastify';
 import { Icon } from '@iconify/react';
 // import { AuthContext }  from "./AuthContext.jsx";
-import img from './img.png';
+import img from './HomePage/lolo.png';
 
 export function UnLoginText_Move() {
     const navigate = useNavigate();
