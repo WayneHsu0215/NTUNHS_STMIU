@@ -202,7 +202,7 @@ const Login = () => {
 
                         <div>
                             <h1 className="text-center py-2 text-3xl font-semibold">SnowOwl</h1>
-                            <h1 className="text-center py-2 text-3xl font-semibold">腦波監測與AI預測之學生問答與分析系統</h1>
+                            <h1 className="text-center py-2 text-3xl font-semibold">靈智答人問答分析系統</h1>
                         </div>
 
                         <div className="divide-y divide-gray-200">
