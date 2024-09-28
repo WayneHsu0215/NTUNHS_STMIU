@@ -201,8 +201,8 @@ const Login = () => {
                             老師登入</h1></div>
 
                         <div>
-                            <h1 className="text-center py-2 text-3xl font-semibold">SnowOwl</h1>
-                            <h1 className="text-center py-2 text-3xl font-semibold">靈智答人問答分析系統</h1>
+                            <h1 className="text-center py-2 text-3xl font-semibold">靈智答人</h1>
+                            <h1 className="text-center py-2 text-3xl font-semibold">分析系統</h1>
                         </div>
 
                         <div className="divide-y divide-gray-200">

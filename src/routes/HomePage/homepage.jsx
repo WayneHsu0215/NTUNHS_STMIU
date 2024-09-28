@@ -48,7 +48,7 @@ const HomePage = () => {
                 <div className="container mx-auto px-4 py-6 flex justify-between items-center">
                     <div className="flex items-center">
                         <img src={LOGO1} alt="描述圖片" className="inline w-20 h-auto"/>
-                        <h1 className="text-3xl font-bold text-indigo-600 ml-4">靈智答人問答分析系統</h1>
+                        <h1 className="text-3xl font-bold text-indigo-600 ml-4">靈智答人分析系統</h1>
                     </div>
 
                     <nav>
@@ -65,7 +65,7 @@ const HomePage = () => {
             {/* Hero 部分 */}
             <section className="bg-indigo-600 text-white py-20" id="home">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-4xl font-bold mb-4">歡迎來到靈智答人問答分析系統</h2>
+                    <h2 className="text-4xl font-bold mb-4">歡迎來到靈智答人分析系統</h2>
                     <p className="text-xl mb-8">我們的系統能幫助您追蹤學生的答題表現與數據分析。</p>
                     <a
                         href="/login"
